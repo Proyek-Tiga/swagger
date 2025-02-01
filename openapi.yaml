@@ -1,0 +1,714 @@
+openapi: 3.0.0
+info:
+  title: Konser Backend
+  version: 1.0.0
+servers:
+  - url: https://tiket-backend-theta.vercel.app
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: auth
+  - name: lokasi
+  - name: Role
+  - name: Konser
+  - name: Users
+  - name: Request
+  - name: Tiket
+  - name: Transaksi
+  - name: E-Ticket
+paths:
+  /auth/regis:
+    post:
+      tags:
+        - auth
+      summary: Regis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role_id: 832be9ea-6a97-4729-abad-e3150e4d03a5
+                name: audyardha
+                email: audyardhanasywa@gmail.com
+                password: audy123
+      responses:
+        "200":
+          description: Successful response
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: audyardhanasywa@gmail.com
+                password: audy123
+      responses:
+        "200":
+          description: Successful response
+  /api/lokasi:
+    post:
+      tags:
+        - lokasi
+      summary: lokasi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                lokasi: Auditorium saja
+                tiket: 200
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+    get:
+      tags:
+        - lokasi
+      summary: Get Lokasi
+      responses:
+        "200":
+          description: Successful response
+  /api/lokasi/{id}:
+    get:
+      tags:
+        - lokasi
+      summary: Get Lokasi By Id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+    put:
+      tags:
+        - lokasi
+      summary: Update Lokasi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                lokasi: Lapangan Ulbi
+                tiket: 200
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+    delete:
+      tags:
+        - lokasi
+      summary: Delete Lokasi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+  /api/role:
+    post:
+      tags:
+        - Role
+      summary: Add Role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role_name: Audy
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+    get:
+      tags:
+        - Role
+      summary: Get All Roles
+      responses:
+        "200":
+          description: Successful response
+  /api/role/{id}:
+    get:
+      tags:
+        - Role
+      summary: Get Role By Id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+    put:
+      tags:
+        - Role
+      summary: Update Role
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role_name: Audyardha
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+    delete:
+      tags:
+        - Role
+      summary: Delete Role
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+  /api/konser/{id}:
+    put:
+      tags:
+        - Konser
+      summary: Update Konser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: eafc60a3-08e9-47ec-83be-48e3c8f81e0d
+                lokasi_id:
+                  type: string
+                  example: e1cc037e-d6ae-443d-adc3-5bb9826a1f87
+                nama_konser:
+                  type: string
+                  example: Konser Viera
+                tanggal_konser:
+                  type: string
+                  example: "2025-01-28"
+                harga:
+                  type: integer
+                  example: 120000
+                image:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Konser
+      summary: Get Konser By Id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Konser
+      summary: Delete Konser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/konser/{id}/status:
+    put:
+      tags:
+        - Konser
+      summary: Ubah Status Konser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: approved
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/konser-approved:
+    get:
+      tags:
+        - Konser
+      summary: Get Konser By Approved
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Get Users By Role
+      parameters:
+        - name: role_name
+          in: query
+          schema:
+            type: string
+          example: penyelenggara
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Users
+      summary: Add Users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role_id: 138d5ceb-0b26-481d-89d1-5a4c94b895d7
+                name: John Doe
+                email: johndoe@example.com
+                password: password123
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/users/{id}:
+    put:
+      tags:
+        - Users
+      summary: Edit Users Role
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                role_id: 138d5ceb-0b26-481d-89d1-5a4c94b895d7
+                name: Johndoe
+                email: johndoe@gmail.com
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Users
+      summary: Get User By Id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Users
+      summary: Delete User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/requests/{id}/status:
+    put:
+      tags:
+        - Request
+      summary: Edit Status
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID request yang ingin diubah statusnya
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status: approved
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/request:
+    get:
+      tags:
+        - Request
+      summary: Get Request
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Request
+      summary: Add Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                user_id: 0eab7ecf-41c5-426a-b7f0-62dc55f7aec6
+                nama_lokasi: Lapangan Gelora Bung Karno
+                kapasitas: 100
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tiket:
+    post:
+      tags:
+        - Tiket
+      summary: Add Tiket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                konser_id: 63cc6fb6-f59a-4a87-b631-dec9ad9a4fe4
+                nama_tiket: VVIP
+                harga: 1000000
+                jumlah_tiket: 200
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Tiket
+      summary: Get All Tiket
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tiket/{tiket_id}:
+    get:
+      tags:
+        - Tiket
+      summary: Get Tiket By ID
+      parameters:
+        - name: tiket_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID tiket yang akan diambil
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Tiket
+      summary: Edit Tiket
+      parameters:
+        - name: tiket_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID tiket yang akan diedit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                konser_id: 63cc6fb6-f59a-4a87-b631-dec9ad9a4fe4
+                nama_tiket: VVIP
+                harga: 1000000
+                jumlah_tiket: 300
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Tiket
+      summary: Delete Tiket
+      parameters:
+        - name: tiket_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID tiket yang akan dihapus
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tiket/konser/{konser_id}:
+    get:
+      tags:
+        - Tiket
+      summary: Get Tiket By Konser
+      parameters:
+        - name: konser_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID konser yang dimasukkan oleh user
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/tiket-penyelenggara:
+    get:
+      tags:
+        - Tiket
+      summary: Get Tiket Penyelenggara
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/transaksi:
+    post:
+      tags:
+        - Transaksi
+      summary: Add Transaksi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                user_id: 15bcbaa2-c77e-4a06-8cf9-8c5ca82cc7ef
+                tiket_id: a3685d2b-8c37-447d-9052-73890fa922ea
+                qty: 2
+                harga: 500000
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Transaksi
+      summary: Get All Transaksi
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/payment/{payment_id}:
+    post:
+      tags:
+        - Transaksi
+      summary: Payment
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID pembayaran yang dimasukkan oleh user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: ID user yang melakukan pembayaran
+              required:
+                - user_id
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/transaksi/{transaksi_id}:
+    get:
+      tags:
+        - Transaksi
+      summary: Get Transaksi By ID
+      parameters:
+        - name: transaksi_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID transaksi yang dimasukkan oleh user
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/transaksi-penyelenggara:
+    get:
+      tags:
+        - Transaksi
+      summary: Get Transaksi Penyelenggara
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/webhook/midtrans:
+    post:
+      tags:
+        - Transaksi
+      summary: Webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                order_id: 48805010-9cbd-4575-ad47-7a2a540816ea
+                transaction_status: Paid
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
+  /api/e-ticket:
+    get:
+      tags:
+        - E-Ticket
+      summary: Get E-Ticket
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json: {}
